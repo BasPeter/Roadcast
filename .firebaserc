@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "roadcast-c8837": {
+      "hosting": {
+        "RoadCast": [
+          "roadcast-c8837"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "roadcast-c8837"
+  }
+}

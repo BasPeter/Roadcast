@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import url('https://fonts.googleapis.com/css?family=Anton|Raleway:300,500&display=swap');
+
+
+body {
+  margin: 0;
+  font-family: Roboto, "Raleway", sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+$app-typography: mat-typography-config(
+  $font-family: '"Raleway", "Anton", sans-serif',
+  $display-4: mat-typography-level(112px, 112px, 300),
+  $display-3: mat-typography-level(56px, 56px, 300),
+  $display-2: mat-typography-level(45px, 48px, 300),
+  $display-1: mat-typography-level(34px, 40px, 300),
+  $headline: mat-typography-level(32px, 47px, 300, 'Anton'),
+  $title: mat-typography-level(20px, 32px, 300, 'Anton'),
+  $subheading-2: mat-typography-level(16px, 28px, 300, 'Anton'),
+  $subheading-1: mat-typography-level(15px, 24px, 300),
+  $body-2: mat-typography-level(14px, 24px, 500),
+  $body-1: mat-typography-level(14px, 20px, 300),
+  $caption: mat-typography-level(12px, 20px, 300),
+  $button: mat-typography-level(14px, 14px, 300),
+    // Line-height must be unit-less fraction of the font-size.
+  $input: mat-typography-level(16px, 1.25, 300)
+);
+
+@include mat-core($app-typography);
+
+.z-depth-0 {
+  box-shadow: none !important;
+}
+
+.z-depth-1 {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 3px 1px -2px rgba(0, 0, 0, 0.12),
+  0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.z-depth-2 {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+  0 1px 10px 0 rgba(0, 0, 0, 0.12),
+  0 2px 4px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+.z-depth-3 {
+  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.z-depth-4 {
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+  0 6px 30px 5px rgba(0, 0, 0, 0.12),
+  0 8px 10px -7px rgba(0, 0, 0, 0.2) !important;
+}
+
+.z-depth-5 {
+  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+  0 9px 46px 8px rgba(0, 0, 0, 0.12),
+  0 11px 15px -7px rgba(0, 0, 0, 0.2) !important;
+}

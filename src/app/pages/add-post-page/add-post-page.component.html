@@ -1,0 +1,12 @@
+<section fxLayoutAlign="center">
+
+  <mat-card fxFlex="60%" class="z-depth-2">
+    <mat-card-content>
+      <h2 class="mat-h2">Nieuwe post toevoegen</h2>
+
+      <ckeditor [editor]="Editor" data="<p>Begin nieuwe post...</p>" (ready)="onReady($event)"></ckeditor>
+
+    </mat-card-content>
+  </mat-card>
+
+</section>

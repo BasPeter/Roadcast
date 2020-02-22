@@ -1,0 +1,18 @@
+@import './../../shared/variables.scss';
+
+.header {
+  background-color: $main-black;
+
+  height: 96px;
+
+  .border {
+    height: 56px;
+    border-bottom: $main-white solid 2px;
+  }
+
+  .roadcast {
+    color: $main-white;
+  }
+
+  margin-bottom: 2rem;
+}

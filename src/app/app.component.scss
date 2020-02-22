@@ -1,0 +1,16 @@
+.background {
+  position: fixed;
+  top: 0;
+  z-index: -1;
+  min-height: 100vh;
+  min-width: 100vw;
+
+  background-image: url(./../assets/photos/Roadcast-Background.jpg);
+  background-size: cover;
+  background-position: right;
+}
+
+.page-container {
+  position: relative;
+  padding: 0 68px;
+}
