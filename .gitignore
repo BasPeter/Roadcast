@@ -46,3 +46,5 @@ testem.log
 Thumbs.db
 /src/environments/environment.ts
 /src/environments/environment.prod.ts
+/.firebase/hosting.ZGlzdC9Sb2FkQ2FzdA.cache
+/.firebase/hosting.ZGlzdC9Sb2FkY2FzdA.cache
