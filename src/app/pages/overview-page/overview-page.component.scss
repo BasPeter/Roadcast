@@ -1,0 +1,31 @@
+@import './../../../shared/variables.scss';
+
+.post-container{
+
+  .select-post-button {
+    color: $main-black;
+    background-color: $secondary-grey;
+    margin: 0 2rem;
+
+    .mat-icon {
+      transform: scale(1.2);
+    }
+
+    &:disabled {
+      opacity: 0.4
+    }
+  }
+
+  .post-card{
+    width: 250px;
+    height: 250px;
+
+    .mat-flat-button {
+      color: $main-white;
+      background-color: $accent-blue;
+      padding: 0 2rem;
+    }
+  }
+}
+
+

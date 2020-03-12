@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Anton|Raleway:300,500&display=swap');
+@import './shared/variables.scss';
 
 
 body {
@@ -10,6 +11,14 @@ body {
 
 html, body {
   height: 100%;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0 !important;
+}
+
+p, body {
+  color: $main-white
 }
 
 $app-typography: mat-typography-config(

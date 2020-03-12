@@ -1,2 +1,57 @@
-<p>overview-page works!</p>
-<p><strong>bold text test</strong></p>
+<section fxFill fxLayout="column" fxLayoutAlign="center start" fxLayoutAlign.xs="center center" >
+
+  <div class="post-container" fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+
+    <div fxHide.lt-sm fxLayoutAlign="center center" class="previous-post">
+      <button [disabled]="!isPreviousPost()" mat-icon-button class="select-post-button previous z-depth-1"
+              (click)="previousPost()">
+        <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
+      </button>
+    </div>
+
+    <div fxLayout.xs="column" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign.xs="center center">
+      <mat-card fxFlex="250px" class="z-depth-2 post-card" fxLayout="column" fxLayoutAlign="end center">
+        <mat-card-content fxLayout="column" fxLayoutAlign="start">
+          <h3 class="mat-h3">{{selectedPost?.episode}}</h3>
+          <button mat-flat-button class="z-depth-1" (click)="goToPage()">Kijk en luister</button>
+        </mat-card-content>
+      </mat-card>
+
+      <div fxHide.gt-xs>
+        <ng-container *ngTemplateOutlet="mobileNavigation">
+        </ng-container>
+      </div>
+
+      <div fxFlex="250px" fxLayoutAlign="start start" class="content-preview">
+        <p>{{selectedPost?.content.slice(0, 200) + "..."}}</p>
+      </div>
+    </div>
+
+    <div fxHide.lt-sm fxLayoutAlign="center center" class="next-post">
+      <button [disabled]="!isNextPost()" mat-icon-button class="select-post-button next z-depth-1" (click)="nextPost()">
+        <mat-icon svgIcon="chevron-right" class="button-icon"></mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <ng-template #mobileNavigation>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <div fxLayoutAlign="center center" class="previous-post">
+        <button [disabled]="!isPreviousPost()" mat-icon-button class="select-post-button previous z-depth-1"
+                (click)="previousPost()">
+          <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
+        </button>
+      </div>
+
+      <div fxLayoutAlign="center center" class="next-post">
+        <button [disabled]="!isNextPost()" mat-icon-button class="select-post-button next z-depth-1"
+                (click)="nextPost()">
+          <mat-icon svgIcon="chevron-right" class="button-icon"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+
+</section>

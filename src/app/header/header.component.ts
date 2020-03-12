@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../services/auth.service';
+import {FormControl, Validators} from '@angular/forms';
+import {User} from 'firebase';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +10,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  isMenuOpened = false;
+
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('');
+  hide = true;
+
+  user: User;
+  isLoggedIn: boolean;
+
+  constructor(public auth: AuthService) {
+  }
+
 
   ngOnInit(): void {
+    // this.login('baspeterdijkema@gmail.com', 'test123');
+    this.auth.isLoggedIn.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  }
+
+  toggleMenu() {
+    this.isMenuOpened = !this.isMenuOpened;
+
+    if (this.isMenuOpened) {
+      const menuPopover: HTMLElement = document.querySelector('.popover');
+      const header: HTMLElement = document.querySelector('.header');
+      const container: HTMLElement = document.querySelector('.container');
+
+      menuPopover.style.right =
+        `${header.getBoundingClientRect().width - (container.getBoundingClientRect().x + container.getBoundingClientRect().width)}px`;
+    }
+
+    const overlay = document.querySelector('.overlay');
+    overlay.classList.toggle('hidden');
+  }
+
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
+  onNoClick(): void {
+    this.toggleMenu();
+  }
+
+  async login() {
+    this.user = await this.auth.login(this.email.value, this.password.value);
   }
 
 }

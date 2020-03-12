@@ -2,11 +2,15 @@
 
   <app-header></app-header>
 
-  <section class="page-container">
+  <section fxLayoutAlign="center" class="page-container">
+    <div fxFlex="90%" fxFlex.gt-sm="65%">
 
     <router-outlet></router-outlet>
 
+    </div>
   </section>
+
+  <app-footer></app-footer>
 
 </main>
 

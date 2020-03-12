@@ -1,18 +1,80 @@
 @import './../../shared/variables.scss';
 
 .header {
+  z-index: 11;
   background-color: $main-black;
 
   height: 96px;
-
-  .border {
-    height: 56px;
-    border-bottom: $main-white solid 2px;
-  }
+  position: fixed;
+  width: 100%;
 
   .roadcast {
     color: $main-white;
+    cursor: pointer;
   }
 
   margin-bottom: 2rem;
+
+  .menu-button {
+    color: $main-white;
+  }
+
+  .button-icon {
+    transform: scale(1.5);
+  }
+}
+
+.dummy-header-for-height {
+  width: 100%;
+  height: 96px;
+}
+
+.overlay {
+  z-index: 10;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+
+  &.hidden {
+    display: none;
+  }
+
+  .popover {
+    padding: 16px;
+    top: 96px;
+    width: 250px;
+
+    position: absolute;
+
+    background-color: $secondary-blue;
+    border-radius: 0 0 4px 4px;
+
+    .mat-flat-button, .mat-button {
+      margin-top: 8px;
+    }
+
+    .mat-flat-button {
+      color: $main-white;
+      background-color: $accent-blue;
+    }
+
+    .mat-form-field {
+      width: 100%;
+    }
+
+    ::ng-deep .mat-focused .mat-form-field-label {
+      /*change color of label*/
+      color: $main-white !important;
+    }
+
+    ::ng-deep.mat-form-field-underline {
+      /*change color of underline*/
+      background-color: $main-white !important;
+    }
+  }
+}
+
+.border {
+  border-bottom: $main-white solid 2px;
 }

@@ -1,0 +1,42 @@
+@import '../../../shared/variables.scss';
+
+.post-section {
+
+  .blog-header {
+    .back-button {
+      color: $main-black;
+      background-color: $secondary-grey;
+      margin-right: 2rem;
+
+      .mat-icon {
+        transform: scale(1.2);
+      }
+    }
+
+    .blog-header-title {
+      font-size: 24px;
+      .episode {
+        font-family: 'Anton', sans-serif;
+        margin-right: 8px;
+        font-size: 24px;
+      }
+
+      .date {
+        margin-left: 8px
+      }
+    }
+  }
+
+  .blog {
+    padding: 0 73px;
+  }
+
+
+  .podcast-button {
+    margin: 1rem 0;
+    padding: 0 2rem;
+    background: none;
+    border: $main-white solid 1px;
+    color: $main-white;
+  }
+}

@@ -1,0 +1,40 @@
+<div class="music-player" fxLayoutAlign="center center">
+
+  <div class="title-episode" *ngIf="currentFile" fxFlex fxLayoutAlign="end">
+    <svg viewBox="0 0 250 50" preserveAspectRatio="xMaxYMid meet">
+      <style>
+        .episode {
+          font: 16px Anton;
+        }
+
+        .title {
+          font: 16px Raleway;
+        }
+      </style>
+
+      <text x="100%" y="32" text-anchor="end" alignment-baseline="middle">
+        <tspan class="episode">{{currentFile.episode}}</tspan>
+        <tspan class="title">{{" - " + currentFile.title}}</tspan>
+      </text>
+    </svg>
+  </div>
+
+
+  <div fxLayout="row">
+    <button mat-icon-button class="play-pause-button"
+            *ngIf="state?.playing" (click)="pause()">
+      <mat-icon svgIcon="pause" class="button-icon"></mat-icon>
+    </button>
+    <button mat-icon-button class="play-pause-button"
+            [disabled]="state?.error" *ngIf="!state?.playing" (click)="play()">
+      <mat-icon svgIcon="play" class="button-icon"></mat-icon>
+    </button>
+    <button mat-icon-button class="stop-button"
+            (click)="stop()">
+      <mat-icon svgIcon="stop" class="button-icon"></mat-icon>
+    </button>
+  </div>
+
+  <div fxFlex fxLayoutAlign="start" class="time">{{state?.readableCurrentTime}}</div>
+
+</div>

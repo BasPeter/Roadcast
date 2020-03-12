@@ -1,0 +1,11 @@
+@import '../../../shared/variables.scss';
+
+.add-post-card {
+  padding-top: 1rem;
+
+  ::ng-deep {
+    p, body {
+      color: $main-black !important;
+    }
+  }
+}
