@@ -32,7 +32,9 @@
 
     </mat-card-content>
 
-    <button [disabled]="isUploading" mat-flat-button class="z-depth-1" (click)="addPost()">Plaats nieuwe blog</button>
+    <button [disabled]="isUploading" mat-flat-button class="z-depth-1" (click)="addPost()">
+      {{mode === 'add' ? 'Plaats nieuwe blog' : 'Pas blog aan'}}
+    </button>
   </mat-card>
 
 </section>

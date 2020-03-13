@@ -4,6 +4,7 @@ import {Post} from '../../../shared/models/post';
 import {AudioService} from '../../services/audioService/audio.service';
 import {StorageService} from '../../services/storageService/storage.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-overview-page',
@@ -15,11 +16,14 @@ export class OverviewPageComponent implements OnInit {
   posts: Post[] = [];
   selectedIndex = 0;
   selectedPost: Post;
+  isLoggedIn: boolean;
 
-  constructor(private firestore: FirestoreService, private router: Router) {
+  constructor(private firestore: FirestoreService, private router: Router, private auth: AuthService) {
   }
 
   ngOnInit(): void {
+    this.auth.isLoggedIn.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
+
     this.firestore.posts.subscribe(
       data => {
         if (data !== null) {

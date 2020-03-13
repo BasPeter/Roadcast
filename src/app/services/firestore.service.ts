@@ -43,6 +43,10 @@ export class FirestoreService {
     return this.postCollection.add(post).then();
   }
 
+  editPost(post, id: string) {
+    return this.postCollection.doc(id).update(post);
+  }
+
   getPost(id: string) {
     return this.postCollection.doc<Post>(id).get();
   }

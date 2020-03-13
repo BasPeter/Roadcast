@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import UserCredential = firebase.auth.UserCredential;
 import {CanActivate, Router} from '@angular/router';
-import {from, Observable} from 'rxjs';
+import {BehaviorSubject, from, Observable} from 'rxjs';
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -16,7 +16,10 @@ export class AuthService implements CanActivate {
     return this._userCredential.user;
   }
 
-  isLoggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private _isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  get isLoggedIn() {
+    return this._isLoggedIn.asObservable();
+  }
 
   constructor(private auth: AngularFireAuth, private router: Router) {
   }
@@ -38,16 +41,18 @@ export class AuthService implements CanActivate {
       return this.auth.signInWithEmailAndPassword(email, password)
         .then((cred: UserCredential) => {
           this._userCredential = cred;
-          this.isLoggedIn.emit(true);
+          this._isLoggedIn.next(true);
           return this.user;
         })
         .catch(err => err);
     }
-    this.isLoggedIn.emit(false);
+    this._isLoggedIn.next(false);
   }
 
   logout() {
-    this.auth.signOut();
-    this._userCredential = undefined;
+    this.auth.signOut().then(() => {
+      this._userCredential = undefined;
+      this._isLoggedIn.next(false);
+    });
   }
 }

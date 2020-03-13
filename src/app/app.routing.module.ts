@@ -17,6 +17,17 @@ const appRoutes: Routes = [
     path: 'nieuw',
     component: AddPostPageComponent,
     canActivate: [AuthService],
+    data: {
+      mode: 'add'
+    }
+  },
+  {
+    path: 'nieuw/:postId',
+    component: AddPostPageComponent,
+    canActivate: [AuthService],
+    data: {
+      mode: 'edit'
+    }
   },
   {
     path: 'post/:postId',

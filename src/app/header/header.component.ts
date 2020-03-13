@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from 'firebase';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,12 +20,11 @@ export class HeaderComponent implements OnInit {
   user: User;
   isLoggedIn: boolean;
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService, private router: Router) {
   }
 
 
   ngOnInit(): void {
-    // this.login('baspeterdijkema@gmail.com', 'test123');
     this.auth.isLoggedIn.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });

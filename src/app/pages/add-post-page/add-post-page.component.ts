@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {FirebaseUploadAdapter} from '../../uploadAdapter/FirebaseUploadAdapter';
 import {StorageService} from '../../services/storageService/storage.service';
-import {Post} from '../../../shared/models/post';
 import {AuthService} from '../../services/auth.service';
 import {FirestoreService} from '../../services/firestore.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Post} from '../../../shared/models/post';
 
 @Component({
   selector: 'app-add-post-page',
@@ -20,6 +20,9 @@ export class AddPostPageComponent implements OnInit {
 
   amountOfPosts: number;
 
+  mode: 'add' | 'edit';
+  posts: Post[];
+
   public post = {
     author: this.auth.user.email,
     title: '',
@@ -28,32 +31,63 @@ export class AddPostPageComponent implements OnInit {
     content: '<p>Begin nieuwe Post</p>',
     podcastUrl: ''
   };
-  lo;
 
   constructor(
     private storage: StorageService,
     private auth: AuthService,
     private firestore: FirestoreService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.firestore.posts.subscribe(posts => {
-      if (posts !== null) {
-        this.amountOfPosts = posts.length;
-        this.post.episode = (this.amountOfPosts < 10 ? 'E0' : 'E') + this.amountOfPosts;
+    Promise.all([
+      this.activatedRoute.data.subscribe((data) => this.mode = data.mode),
+      this.firestore.posts.subscribe((posts: Post[]) => this.posts = posts)]
+    ).then(() => {
+        if (this.mode === 'add') {
+          if (this.posts !== null) {
+            this.amountOfPosts = this.posts.length;
+            this.post.episode = (this.amountOfPosts < 10 ? 'E0' : 'E') + this.amountOfPosts;
+          }
+        }
+        if (this.mode === 'edit') {
+          const id = this.activatedRoute.snapshot.paramMap.get('postId');
+          this.firestore.getPost(id).subscribe((post) => {
+            this.post.author = post.get('author');
+            this.post.title = post.get('title');
+            this.post.date = post.get('date');
+            this.post.episode = post.get('episode');
+            this.post.content = post.get('content');
+            this.post.podcastUrl = post.get('podcastUrl');
+          });
+        }
       }
-    });
+    )
+    ;
   }
 
   addPost() {
     this.isUploading = true;
-    console.log(this.post);
-    this.firestore.addPost(this.post).then(post => {
-      this.isUploading = false;
-      post.get().then(doc => this.router.navigate(['post/' + doc.id]));
-    });
+    if (this.mode === 'add') {
+      this.firestore.addPost(this.post).then(post => {
+        this.isUploading = false;
+        post.get().then(doc => this.router.navigate(['post/' + doc.id]));
+      });
+    } else if (this.mode === 'edit') {
+      const id = this.activatedRoute.snapshot.paramMap.get('postId');
+      this.firestore.editPost(this.post, id).then(post => {
+        this.isUploading = false;
+        this.router.navigate(['post/' + id]);
+      });
+    }
+    //
+    // console.log(this.post);
+    // this.firestore.addPost(this.post).then(post => {
+    //   this.isUploading = false;
+    //   post.get().then(doc => this.router.navigate(['post/' + doc.id]));
+    // });
   }
 
   public onReady(editor) {

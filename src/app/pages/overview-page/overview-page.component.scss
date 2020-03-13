@@ -20,6 +20,14 @@
     width: 250px;
     height: 250px;
 
+    .mat-card-content {
+      height: 100%;
+
+      .episode-button{
+        margin: 0 auto;
+      }
+    }
+
     .mat-flat-button {
       color: $main-white;
       background-color: $accent-blue;
