@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as CustomEditor from '../../customEditor/build/ckeditor.js';
 import {StorageService} from '../../services/storageService/storage.service';
 import {AuthService} from '../../services/auth.service';
 import {FirestoreService} from '../../services/firestore.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map} from 'rxjs/operators';
 import {Post} from '../../../shared/models/post';
 
 @Component({
@@ -14,7 +13,7 @@ import {Post} from '../../../shared/models/post';
 })
 export class AddPostPageComponent implements OnInit {
 
-  public editor = ClassicEditor;
+  public editor = CustomEditor;
   loader: any;
   isUploading = false;
 
@@ -95,6 +94,7 @@ export class AddPostPageComponent implements OnInit {
       // Configure the URL to the upload script in your back-end here!
       return this.imageUploadAdapter(loader);
     };
+    editor
   }
 
   imageUploadAdapter(loader: any) {
@@ -108,7 +108,7 @@ export class AddPostPageComponent implements OnInit {
     return uploadInterface;
   }
 
-  uploadImage(that: any): Promise<any> {
+  uploadImage(that: any) {
     return that.loader.file
       .then(file => {
           const location = `afbeeldingen/${file.name}`;
@@ -118,7 +118,12 @@ export class AddPostPageComponent implements OnInit {
             that.loader.uploadTotal = changes.totalBytes;
             that.loader.uploaded = changes.bytesTransferred;
           });
-          return uploadTask.then(() => this.storage.getDownloadUrl(location));
+          // return uploadTask.then(() => this.storage.getDownloadUrl(location));
+
+          return uploadTask.then(async task => {
+            const url = await task.ref.getDownloadURL();
+            return {default: url};
+          });
         }
       );
   }

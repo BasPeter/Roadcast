@@ -5,6 +5,8 @@ import {StorageService} from '../../services/storageService/storage.service';
 import {AudioService} from '../../services/audioService/audio.service';
 import {Post} from '../../../shared/models/post';
 import {ActivatedRoute} from '@angular/router';
+import * as ViewerEditor from '../../customEditor/build/ckeditor';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-single-post',
@@ -15,16 +17,20 @@ export class SinglePostComponent implements OnInit {
 
   post: Post;
   content: string;
+  public viewer = ViewerEditor;
+  isLoggedIn: boolean;
 
   constructor(
     private storage: StorageService,
     private audio: AudioService,
+    private auth: AuthService,
     private location: Location,
     private activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.post = this.activatedRoute.snapshot.data.post;
+    this.auth.isLoggedIn.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
   }
 
   navigateBack() {

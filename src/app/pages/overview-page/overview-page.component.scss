@@ -1,6 +1,10 @@
 @import './../../../shared/variables.scss';
 
-.post-container{
+.post-container {
+
+  @media only screen and('min-width: 600px') {
+    padding-top: 10vw;
+  }
 
   .select-post-button {
     color: $main-black;
@@ -16,14 +20,14 @@
     }
   }
 
-  .post-card{
+  .post-card {
     width: 250px;
     height: 250px;
 
     .mat-card-content {
       height: 100%;
 
-      .episode-button{
+      .episode-button {
         margin: 0 auto;
       }
     }
@@ -33,6 +37,13 @@
       background-color: $accent-blue;
       padding: 0 2rem;
     }
+
+  }
+
+  .content-preview {
+    overflow-wrap: break-word !important;
+    display: inline-block;
+    word-break: break-word;
   }
 }
 

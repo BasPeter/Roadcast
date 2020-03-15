@@ -22,7 +22,7 @@ export class FirestoreService {
   }
 
   constructor(private firestore: AngularFirestore) {
-    this.postCollection = this.firestore.collection('posts');
+    this.postCollection = this.firestore.collection('posts', ref => ref.orderBy('date'));
     this.getPosts();
   }
 

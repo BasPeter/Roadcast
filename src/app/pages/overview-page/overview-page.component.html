@@ -33,7 +33,7 @@
       </div>
 
       <div fxFlex="250px" fxLayoutAlign="start start" class="content-preview">
-        <p>{{selectedPost?.content.slice(0, 200) + "..."}}</p>
+        <p>{{selectedPost.content !== null ? (selectedPost.content.slice(0, 200) + "...") : ""}}</p>
       </div>
     </div>
 

@@ -12,13 +12,19 @@ export class SinglePostPageResolverService {
   constructor(private firestore: FirestoreService) {
   }
 
-  resolve(route: ActivatedRoute) {
-    let $post: Observable<Post> = new Observable<Post>();
-    this.firestore.posts.subscribe(posts => {
-      if (posts !== null) {
-        $post = of(posts.find(data => data.id === route.params['postId']));
-      }
+  resolve(route: ActivatedRoute): Promise<any> {
+    return new Promise<any>(res => {
+      this.firestore.posts.subscribe(posts => {
+        if (posts !== null) {
+          res(posts.find(data => data.id === route.params['postId']));
+        }
+      });
     });
-    return $post;
+    // return this.firestore.posts.subscribe(posts => new Promise<any>(res => {
+    //     if (posts !== null) {
+    //       res(posts.find(data => data.id === route.params['postId']));
+    //     }
+    //   })
+    // );
   }
 }

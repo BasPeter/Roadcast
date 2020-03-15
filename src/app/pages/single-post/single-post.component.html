@@ -1,26 +1,34 @@
 <section class="post-section">
 
-  <div class="blog-header" fxLayout="row" fxLayoutAlign="none center">
+  <div class="blog-header">
 
-  <button mat-icon-button class="back-button" (click)="navigateBack()">
-    <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
-  </button>
+    <div fxLayoutAlign="space-between" fxLayout="row">
+      <div fxLayout="row">
+        <button mat-icon-button class="back-button" (click)="navigateBack()">
+          <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
+        </button>
 
-    <div class="blog-header-title" fxLayout="row" fxLayoutAlign="none center">
-      <span class="episode">{{post?.episode}}</span>
-      -
-      <span class="date">{{post?.title}}</span>
+        <div class="blog-header-title" fxLayout="row" fxLayoutAlign="none center">
+          <span class="episode">{{post?.episode}}</span>
+          -
+          <span class="date">{{post?.title}}</span>
+        </div>
+      </div>
+
+      <button *ngIf="isLoggedIn" mat-icon-button [routerLink]="['/nieuw', post?.id]">
+        <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+      </button>
     </div>
 
   </div>
 
   <article class="blog">
 
-  <button mat-flat-button class="podcast-button z-depth-1" (click)="play()">Luister podcast</button>
+    <button mat-flat-button class="podcast-button z-depth-1" (click)="play()">Luister podcast</button>
 
-    <div class="content"
-    [innerHTML]="post?.content | safe: 'html'">
-    </div>
+    <ckeditor class="editor" [disabled]="true" [config]="{ toolbar: [] }" [editor]="viewer"
+              [(ngModel)]="post.content"></ckeditor>
 
   </article>
+
 </section>
