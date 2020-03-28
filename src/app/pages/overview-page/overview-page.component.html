@@ -1,43 +1,43 @@
-<section fxFill fxLayout="column" fxLayoutAlign="center start" fxLayoutAlign.xs="center center">
+<section fxFill fxLayout="column" fxLayoutAlign="start" fxLayoutAlign.lt-md="center center">
 
-  <div class="post-container" fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+  <div class="post-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
 
-    <div fxHide.lt-sm fxLayoutAlign="center center" class="previous-post">
+    <div fxHide.lt-md fxLayoutAlign="center center" class="previous-post">
       <button [disabled]="!isPreviousPost()" mat-icon-button class="select-post-button previous z-depth-1"
               (click)="previousPost()">
         <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
       </button>
     </div>
 
-    <div fxLayout.xs="column" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign.xs="center center">
+    <div fxLayout.lt-md="column" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign.lt-md="center center">
       <mat-card class="z-depth-2 post-card">
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
 
           <div fxLayout="row" fxLayoutAlign="end">
-            <button *ngIf="isLoggedIn" mat-icon-button [routerLink]="['/nieuw', selectedPost?.id]">
+            <button *ngIf="auth.isAdmin | async" mat-icon-button [routerLink]="['/nieuw', selectedPostId]">
               <mat-icon svgIcon="circle-edit-outline"></mat-icon>
             </button>
           </div>
 
           <div class="episode-button" fxLayout="column" fxLayoutAlign="start start">
-            <h3 class="mat-h3">{{selectedPost?.episode}}</h3>
-            <button mat-flat-button class="z-depth-1" (click)="goToPage()">Kijk en luister</button>
+            <h3 class="mat-h3">{{(selectedPost | async)?.episode}}</h3>
+            <button mat-flat-button class="z-depth-1" [routerLink]="['/post', selectedPostId]">Kijk en luister</button>
           </div>
 
         </mat-card-content>
       </mat-card>
 
-      <div fxHide.gt-xs>
+      <div fxHide.gt-sm>
         <ng-container *ngTemplateOutlet="mobileNavigation">
         </ng-container>
       </div>
 
       <div fxFlex="250px" fxLayoutAlign="start start" class="content-preview">
-        <p>{{selectedPost.content !== null ? (selectedPost.content.slice(0, 200) + "...") : ""}}</p>
+        <p [innerHtml]="(selectedPost | async)?.contentPreview | safe: 'html'"></p>
       </div>
     </div>
 
-    <div fxHide.lt-sm fxLayoutAlign="center center" class="next-post">
+    <div fxHide.lt-md fxLayoutAlign="center center" class="next-post">
       <button [disabled]="!isNextPost()" mat-icon-button class="select-post-button next z-depth-1" (click)="nextPost()">
         <mat-icon svgIcon="chevron-right" class="button-icon"></mat-icon>
       </button>

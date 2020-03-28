@@ -3,6 +3,8 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 import {StreamState} from './stream-state';
+import {FirestoreService} from '../firestoreService/firestore.service';
+import {StorageService} from '../storageService/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,9 @@ export class AudioService {
   };
 
   private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
+
+  constructor(private storage: StorageService) {
+  }
 
   private streamObservable(url) {
     return new Observable(observer => {
@@ -62,7 +67,8 @@ export class AudioService {
     });
   }
 
-  playStream(url) {
+  async playStream(location: string) {
+    const url = await this.storage.getUrlFrom(location).toPromise()
     return this.streamObservable(url).pipe(takeUntil(this.stop$));
   }
 

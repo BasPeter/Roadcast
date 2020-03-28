@@ -4,18 +4,18 @@
 
     <div fxLayoutAlign="space-between" fxLayout="row">
       <div fxLayout="row">
-        <button mat-icon-button class="back-button" (click)="navigateBack()">
+        <button mat-icon-button class="back-button" [routerLink]="['/']" [queryParams]="{post: postId}">
           <mat-icon svgIcon="chevron-left" class="button-icon"></mat-icon>
         </button>
 
         <div class="blog-header-title" fxLayout="row" fxLayoutAlign="none center">
-          <span class="episode">{{post?.episode}}</span>
+          <span class="episode">{{(post | async)?.episode}}</span>
           -
-          <span class="date">{{post?.title}}</span>
+          <span class="date">{{(post | async)?.title}}</span>
         </div>
       </div>
 
-      <button *ngIf="isLoggedIn" mat-icon-button [routerLink]="['/nieuw', post?.id]">
+      <button *ngIf="auth.isAdmin | async" mat-icon-button [routerLink]="['/nieuw', postId]">
         <mat-icon svgIcon="circle-edit-outline"></mat-icon>
       </button>
     </div>
@@ -24,10 +24,10 @@
 
   <article class="blog">
 
-    <button mat-flat-button class="podcast-button z-depth-1" (click)="play()">Luister podcast</button>
+    <button *ngIf="(post | async)?.podcastUrl" mat-flat-button class="podcast-button z-depth-1" (click)="play()">Luister podcast</button>
 
     <ckeditor class="editor" [disabled]="true" [config]="{ toolbar: [] }" [editor]="viewer"
-              [(ngModel)]="post.content"></ckeditor>
+              [(ngModel)]="content"></ckeditor>
 
   </article>
 

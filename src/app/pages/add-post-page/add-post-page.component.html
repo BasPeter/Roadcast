@@ -4,10 +4,10 @@
     <mat-card-content>
       <mat-card-title fxLayoutAlign="space-between">
         <h2 class="mat-h2">Nieuwe post toevoegen</h2>
-        <h4 class="mat-h4 datum">{{post.date | date}}</h4>
+        <h4 class="mat-h4 datum">{{post.date.toDate() | date}}</h4>
       </mat-card-title>
 
-      <div class="post-gegevens-invoer">
+      <div class="post-gegevens-invoer" fxLayoutGap="8px">
         <form class="post-form" fxLayout="column">
           <div fxLayoutAlign="stretch" fxLayoutGap="16px">
             <mat-form-field fxFlex class="author">
@@ -26,15 +26,45 @@
             <input matInput placeholder="Sicke bus, ouwe!" [(ngModel)]="post.title" name="title">
           </mat-form-field>
         </form>
+
+        <div class="podcast-upload-container" fxLayout="row">
+          <input class="podcast-upload"
+                 type="file"
+                 id="file"
+                 name="podcastFile"
+                 accept="audio/*"
+                 (change)="uploadPodcast($event.target.files[0])"
+                 [disabled]="isUploading">
+          <label fxFlex="128px" *ngIf="!post.podcastUrl" class="podcast-label z-depth-2" for="file">Upload
+            podcast</label>
+          <div #podcastUploadProgress class="upload-progress z-depth-1"></div>
+
+          <div *ngIf="post.podcastUrl" class="current-podcast" fxFlex fxLayoutAlign="space-between center">
+            <span class="preview-podcast" (click)="play()">Huidige podcast: {{this.post?.podcastName}}</span>
+            <button mat-flat-button class="z-depth-2" (click)="removePodcast()">Verwijder podcast</button>
+          </div>
+        </div>
       </div>
 
+      <h3 class="mat-h3>">Preview</h3>
+      <ckeditor class="editor" [config]="{ toolbar: [] }" [editor]="previewEditor"
+                [(ngModel)]="post.contentPreview"></ckeditor>
+      <br>
+
+      <h3 class="mat-h3>">Blog en foto's</h3>
       <ckeditor class="editor" [editor]="editor" (ready)="onReady($event)" [(ngModel)]="post.content"></ckeditor>
 
     </mat-card-content>
 
-    <button [disabled]="isUploading" mat-flat-button class="z-depth-1" (click)="addPost()">
-      {{mode === 'add' ? 'Plaats nieuwe blog' : 'Pas blog aan'}}
-    </button>
+    <div fxLayoutAlign="space-between">
+      <button mat-flat-button [disabled]="isUploading" class="add-post-button z-depth-1" (click)="addPost()">
+        {{mode === 'add' ? 'Plaats nieuwe blog' : 'Pas blog aan'}}
+      </button>
+
+      <button [disabled]="!isUploadedNew" mat-flat-button class="z-depth-1" [routerLink]="['/post', postId]">
+        Bekijk blog
+      </button>
+    </div>
   </mat-card>
 
 </section>

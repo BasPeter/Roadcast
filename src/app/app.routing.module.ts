@@ -31,10 +31,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'post/:postId',
-    component: SinglePostComponent,
-    resolve: {
-      post: SinglePostPageResolverService
-    }
+    component: SinglePostComponent
   }
 ];
 

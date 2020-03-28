@@ -57,15 +57,19 @@
     .mat-flat-button {
       color: $main-white;
       background-color: $accent-blue;
+
+      &.new-post-button {
+        background-color: $accent-light-blue;
+      }
     }
 
     .mat-form-field {
       width: 100%;
     }
 
-    ::ng-deep .mat-focused .mat-form-field-label {
+    ::ng-deep .mat-form-field-label{
       /*change color of label*/
-      color: $main-white !important;
+      color: $main-white;
     }
 
     ::ng-deep.mat-form-field-underline {

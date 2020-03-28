@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {AudioFile} from '../../services/storageService/audioFile';
 import {StorageService} from '../../services/storageService/storage.service';
 import {AudioService} from '../../services/audioService/audio.service';
-import {Post} from '../../../shared/models/post';
+import {Post} from '../../services/firestoreService/post';
 import {ActivatedRoute} from '@angular/router';
 import * as ViewerEditor from '../../customEditor/build/ckeditor';
 import {AuthService} from '../../services/auth.service';
+import {Observable} from 'rxjs';
+import {FirestoreService} from '../../services/firestoreService/firestore.service';
+import {AudioFile} from '../../services/storageService/audioFile';
 
 @Component({
   selector: 'app-single-post',
@@ -15,41 +17,55 @@ import {AuthService} from '../../services/auth.service';
 })
 export class SinglePostComponent implements OnInit {
 
-  post: Post;
+  postId: string;
+  post: Observable<Post>;
   content: string;
+
   public viewer = ViewerEditor;
-  isLoggedIn: boolean;
 
   constructor(
     private storage: StorageService,
     private audio: AudioService,
-    private auth: AuthService,
+    public auth: AuthService,
     private location: Location,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private firestore: FirestoreService) {
   }
 
   ngOnInit() {
-    this.post = this.activatedRoute.snapshot.data.post;
-    this.auth.isLoggedIn.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-  }
+    this.activatedRoute.params.subscribe(params => {
+      this.postId = params.postId;
+      this.post = this.firestore.getPost(this.postId);
+    });
 
-  navigateBack() {
-    this.location.back();
+    this.post.subscribe(post => {
+      this.content = post.content;
+    });
   }
 
   play() {
     this.audio.stop();
-    this.storage.playAudio({
-        title: this.post.title,
-        episode: this.post.episode,
-        location: '/testAudio/ES_Old Grump - Smartface.mp3'
-        // location: 'testAudio/ES_Mass Hysteria - STRLGHT.mp3',
-      }
-    ).subscribe((file: AudioFile) => {
-      this.audio.playStream(file.url).subscribe(events => {
-        // listening
+
+    let title: string;
+    let episode: string;
+    let podcastName: string;
+
+    this.post.subscribe(post => {
+      title = post.title;
+      episode = post.episode;
+      podcastName = post.podcastName;
+
+      this.storage.playAudio({
+          title,
+          episode,
+          location: `posts/${this.postId}/podcast/${podcastName}`
+        }
+      ).subscribe((file: AudioFile) => {
+        this.audio.playStream(file.location).then(stream => stream.subscribe(events => {
+            // listening
+          })
+        );
       });
     });
   }
-
 }

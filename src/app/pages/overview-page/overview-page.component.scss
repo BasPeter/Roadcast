@@ -3,7 +3,7 @@
 .post-container {
 
   @media only screen and('min-width: 600px') {
-    padding-top: 10vw;
+    padding-top: 10vh;
   }
 
   .select-post-button {
@@ -15,9 +15,15 @@
       transform: scale(1.2);
     }
 
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
     &:disabled {
       opacity: 0.4
     }
+
+    transition: transform .2s ease;
   }
 
   .post-card {
@@ -44,6 +50,7 @@
     overflow-wrap: break-word !important;
     display: inline-block;
     word-break: break-word;
+    max-width: 400px;
   }
 }
 

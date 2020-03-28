@@ -1,20 +1,10 @@
-// import * as functions from 'firebase-functions';
-//
-// let xmlRequest = new XMLHttpRequest();
-// xmlRequest.addEventListener('load', uploadImage)
-//
-// export const uploadImage = functions.https.onRequest((request, response) => {
-//
-//   request.
-//   let xmlReq = new XMLHttpRequest()
-//   xmlReq.onreadystatechange
-//   const bucket = functions.storage.bucket('roadcast-c8837.appspot.com');
-//
-// };
-//
-// // // Start writing Firebase Functions
-// // // https://firebase.google.com/docs/functions/typescript
-// //
-// // export const helloWorld = functions.https.onRequest((request, response) => {
-// //  response.send("Hello from Firebase!");
-// // });
+ // import * as functions from 'firebase-functions';
+ // import * as admin from 'firebase-admin';
+ // admin.initializeApp();
+ //
+ // export const makeAdmin = functions.https.onRequest(() => {
+ //   return admin.auth().getUserByEmail('baspeterdijkema@gmail.com').then(user => {
+ //     return admin.auth().setCustomUserClaims(user.uid, {admin: true});
+ //   })
+ //     .catch(error => error);
+ // });

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AudioService} from '../services/audioService/audio.service';
 import {StreamState} from '../services/audioService/stream-state';
 import {StorageService} from '../services/storageService/storage.service';
 import {AudioFile} from '../services/storageService/audioFile';
+import {MatSliderChange} from '@angular/material/slider';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-music-player',
@@ -11,14 +13,16 @@ import {AudioFile} from '../services/storageService/audioFile';
 })
 export class MusicPlayerComponent implements OnInit {
 
-  // files: Array<any> = [];
   state: StreamState;
   currentFile: AudioFile = {url: '', name: '', title: '', episode: '', location: ''};
 
-  constructor(private audio: AudioService, private storage: StorageService) { }
+  duration: number;
+
+  constructor(private audio: AudioService, private storage: StorageService) {
+  }
 
   ngOnInit(): void {
-    this.storage.getFile().subscribe(file => {
+    this.storage.file.subscribe(file => {
       this.currentFile = file;
     });
 
@@ -26,18 +30,6 @@ export class MusicPlayerComponent implements OnInit {
       this.state = state;
     });
   }
-
-  // playStream(url) {
-  //   this.audio.playStream(url).subscribe(events => {
-  //     // listening for fun here
-  //   });
-  // }
-
-  // openFile(file) {
-  //   this.currentFile = file;
-  //   this.audio.stop();
-    // this.playStream(file);
-  // }
 
   pause() {
     this.audio.pause();
@@ -50,26 +42,6 @@ export class MusicPlayerComponent implements OnInit {
   stop() {
     this.audio.stop();
   }
-
-  // next() {
-  //   const index = this.currentFile.index + 1;
-  //   const file = this.files[index];
-  //   this.openFile(file, index);
-  // }
-
-  // previous() {
-  //   const index = this.currentFile.index - 1;
-  //   const file = this.files[index];
-  //   this.openFile(file, index);
-  // }
-
-  // isFirstPlaying() {
-  //   return this.currentFile.index === 0;
-  // }
-
-  // isLastPlaying() {
-  //   return this.currentFile.index === this.files.length - 1;
-  // }
 
   onSliderChangeEnd(change) {
     this.audio.seekTo(change.value);

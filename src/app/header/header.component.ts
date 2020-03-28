@@ -17,17 +17,11 @@ export class HeaderComponent implements OnInit {
   password = new FormControl('');
   hide = true;
 
-  user: User;
-  isLoggedIn: boolean;
-
   constructor(public auth: AuthService, private router: Router) {
   }
 
 
   ngOnInit(): void {
-    this.auth.isLoggedIn.subscribe(isLoggedIn => {
-      this.isLoggedIn = isLoggedIn;
-    });
   }
 
   toggleMenu() {
@@ -56,8 +50,8 @@ export class HeaderComponent implements OnInit {
     this.toggleMenu();
   }
 
-  async login() {
-    this.user = await this.auth.login(this.email.value, this.password.value);
+  login() {
+    this.auth.login(this.email.value, this.password.value);
   }
 
 }

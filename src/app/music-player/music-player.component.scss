@@ -1,7 +1,38 @@
 @import './../../shared/variables.scss';
 
+::ng-deep .mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label, .mat-accent .mat-slider-track-fill {
+  background-color: $secondary-red;
+}
+
+.play-head {
+  position: absolute;
+  width: 95%;
+  top: -24px;
+
+  //width: 12px;
+  //height: 12px;
+  //border-radius: 12px;
+  //
+  //top: 0;
+  //left: 0;
+  //
+  //border: 2px solid $secondary-red;
+  //background-color: $main-white;
+  //
+  //&:hover {
+  //  transform: translateY(-2px);
+  //  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+  //  0 1px 10px 0 rgba(0, 0, 0, 0.12),
+  //  0 2px 4px -1px rgba(0, 0, 0, 0.3) !important;
+  //}
+  //
+  //transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
 .music-player {
   color: $main-black;
+
 
   .title-episode {
     height: 50px;

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import 'firebase/firestore';
-import {Post} from '../../shared/models/post';
-import QueryDocumentSnapshot = firebase.firestore.QueryDocumentSnapshot;
+import {Post} from './post';
 import * as firebase from 'firebase';
 import {BehaviorSubject, Observable} from 'rxjs';
-import DocumentReference = firebase.firestore.DocumentReference;
 import {map} from 'rxjs/operators';
+import DocumentReference = firebase.firestore.DocumentReference;
+import Timestamp = firebase.firestore.Timestamp;
 
 
 @Injectable({
@@ -39,15 +39,36 @@ export class FirestoreService {
       .subscribe(data => this._posts.next(data));
   }
 
-  addPost(post): Promise<DocumentReference> {
-    return this.postCollection.add(post).then();
+  // editPost(id: string, post) {
+  //   return this.postCollection.doc(id).update(post);
+  // }
+
+  // _________________________ NEW _________________________
+
+  getPostIds(): Observable<{id: string, date: Date}[]> {
+    return this.firestore.collection<{id: string, date: Date}>('post-ids', ref => ref.orderBy('date', 'desc')).valueChanges();
   }
 
-  editPost(post, id: string) {
-    return this.postCollection.doc(id).update(post);
+  addPost(post: Post, id): Promise<DocumentReference> {
+    this.firestore.doc(`post-ids/${id}`)
+      .set({
+        id,
+        date: post.date
+      });
+    return this.firestore.doc(`posts/${id}`).set(post)
+      .then()
+      .catch(err => err);
   }
 
   getPost(id: string) {
-    return this.postCollection.doc<Post>(id).get();
+    return this.firestore.doc<Post>(`posts/${id}`).valueChanges();
+  }
+
+  getTodayTimestamp() {
+    return Timestamp.now();
+  }
+
+  updatePost(id: string, post) {
+    return this.postCollection.doc(id).update(post);
   }
 }

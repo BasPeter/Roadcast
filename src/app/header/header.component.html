@@ -17,46 +17,56 @@
   <div class="popover z-depth-2" (click)="$event.stopPropagation()">
     <div class="content">
 
-      <ng-container *ngIf="!isLoggedIn; else loggedIn">
-        <h3 class="mat-h3">
-          Log in...
-        </h3>
-
-        <mat-form-field>
-          <input matInput placeholder="Email..." [formControl]="email" required>
-          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [formControl]="password"
-                 placeholder="Wachtwoord..." [type]="hide ? 'password' : 'text'" required>
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
-
-        <div mat-dialog-actions fxLayoutAlign="end center">
-          <button mat-button (click)="onNoClick()">Cancel</button>
-          <button mat-flat-button class="z-depth-1" (click)="login()">Login</button>
-        </div>
-      </ng-container>
-
-      <ng-template #loggedIn>
-        <h3 class="mat-h3">
-          Ingelogd als
-        </h3>
-        <h4 class="mat-h4">{{user.email}}</h4>
-
-        <div fxLayoutAlign="end center">
-          <button mat-flat-button class="z-depth-1" (click)="auth.logout()">Log uit</button>
-        </div>
-        <br/>
-
-        <div class="border"></div>
-
-        <button mat-button [routerLink]="'/nieuw'" (click)="toggleMenu()">Nieuwe post aanmaken</button>
-      </ng-template>
+      <div *ngIf="auth.isLoggedIn | async ; then loggedIn else notLoggedIn"></div>
 
     </div>
   </div>
 </div>
+
+<ng-template #notLoggedIn>
+  <h3 class="mat-h3">
+    Log in...
+  </h3>
+
+  <mat-form-field>
+    <input matInput placeholder="Email..." [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [formControl]="password"
+           placeholder="Wachtwoord..." [type]="hide ? 'password' : 'text'" required>
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div mat-dialog-actions fxLayoutAlign="end center">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-flat-button class="z-depth-1" (click)="login()">Login</button>
+  </div>
+</ng-template>
+
+<ng-template #loggedIn>
+  <div fxLayout="column" fxLayoutAlign="start stretch">
+    <h3 class="mat-h3">
+      Ingelogd als
+    </h3>
+    <h4 class="mat-h4">{{(auth.user | async).email}}</h4>
+
+    <br/>
+
+    <div class="border"></div>
+
+    <br>
+
+    <button mat-flat-button class="z-depth-1" (click)="auth.logout()">Log uit</button>
+
+    <ng-container *ngIf="auth.isAdmin | async">
+      <button class="new-post-button" mat-flat-button [routerLink]="['/nieuw']" (click)="toggleMenu()">Nieuwe post aanmaken</button>
+    </ng-container>
+  </div>
+
+</ng-template>
+
+

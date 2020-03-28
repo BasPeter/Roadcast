@@ -32,6 +32,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MusicPlayerComponent } from './music-player/music-player.component';
 import { SinglePostComponent } from './pages/single-post/single-post.component';
 import {SafePipe} from '../shared/pipe/safe.pipe';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {SafePipe} from '../shared/pipe/safe.pipe';
         MatInputModule,
         MatDialogModule,
         FormsModule,
+        MatSliderModule
     ],
   providers: [],
   bootstrap: [AppComponent]

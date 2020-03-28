@@ -3,6 +3,53 @@
 .add-post-card {
   padding-top: 1rem;
 
+  .podcast-upload-container {
+    padding: 0;
+    margin-bottom: 1rem;
+
+    .podcast-upload {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .podcast-label {
+      display: inline-block;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      color: $main-white;
+      background-color: $accent-blue;
+    }
+
+    .upload-progress {
+      border-radius: 4px;
+      margin-left: 4px;
+      background-color: $secondary-grey;
+    }
+
+    .preview-podcast {
+      cursor: pointer;
+    }
+  }
+
+  .mat-flat-button {
+    color: $main-white;
+    background-color: $accent-blue;
+
+    &.add-post-button {
+      background-color: $accent-light-blue;
+    }
+
+    &:disabled {
+      background-color: $disabled;
+      box-shadow: none !important;
+    }
+  }
+
   ::ng-deep {
     p, body {
       color: $main-black !important;
