@@ -4,7 +4,8 @@ import {FirestoreService} from '../../services/firestoreService/firestore.servic
 import {Post} from '../../services/firestoreService/post';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-overview-page',
@@ -26,11 +27,13 @@ export class OverviewPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firestore.getPostIds().subscribe(postIds => {
-        this.postIds = postIds;
-        this.handleQueryParameters();
-      });
 
+    this.activatedRoute.data.subscribe(data => {
+      this.postIds = data.data.postIds;
+      this.selectedPostId = data.data.selectedPostId;
+      this.selectedPost = of(data.data.selectedPost);
+      this.updateLocationState();
+    });
   }
 
   isPreviousPost() {
@@ -68,15 +71,5 @@ export class OverviewPageComponent implements OnInit {
     const newLocation = `/?post=${this.selectedPostId}`;
     this.location.go(newLocation);
   }
-
-  handleQueryParameters() {
-    this.selectedPostId = this.activatedRoute.snapshot.queryParamMap.get('post');
-    if (this.selectedPostId === null) {
-      this.selectedPostId = this.postIds[0].id;
-    }
-    this.getPost();
-  }
-
-
 }
 

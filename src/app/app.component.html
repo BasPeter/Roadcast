@@ -2,7 +2,7 @@
 
   <app-header></app-header>
 
-  <section fxLayoutAlign="center" class="page-container">
+  <section *ngIf="isBackgroundLoaded" fxLayoutAlign="center" class="page-container">
     <div fxFlex="90%" fxFlex.gt-sm="85%" fxLayoutAlign="start" fxLayoutAlign.lt-md="center start">
 
     <router-outlet></router-outlet>
@@ -14,13 +14,13 @@
 
 </main>
 
-<div class="background">
-
+<div class="background" fxLayoutAlign="center center">
   <picture class="image-container">
     <source media="(max-height: 768px) and (max-width: 1024px)" srcset="{{url?.w768}}">
     <source media="(max-height: 900px) and (max-width: 1280px)" srcset="{{url?.w960}}">
     <source media="(max-height: 1080px) and (max-width: 1440px)" srcset="{{url?.w1080}}">
-    <img class="image" src="{{url?.full}}"/>
+    <img class="image" [ngClass]="{'image-loading' : !isBackgroundLoaded}"
+         src="{{url ? url.full : './../assets/RoadcastLogo.svg'}}" alt="Roadcast"/>
   </picture>
 </div>
 

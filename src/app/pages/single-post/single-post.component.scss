@@ -1,5 +1,9 @@
 @import '../../../shared/variables.scss';
 
+:host {
+  width: 100%;
+}
+
 .post-section {
 
   .blog-header {

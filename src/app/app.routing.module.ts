@@ -6,12 +6,16 @@ import {AuthService} from './services/auth.service';
 import {OverviewPageComponent} from './pages/overview-page/overview-page.component';
 import {AddPostPageComponent} from './pages/add-post-page/add-post-page.component';
 import {SinglePostComponent} from './pages/single-post/single-post.component';
+import {OverviewPageResolverService} from './pages/overview-page/overview-page-resolver.service';
 import {SinglePostPageResolverService} from './pages/single-post/single-post-page-resolver.service';
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: OverviewPageComponent
+    component: OverviewPageComponent,
+    resolve: {
+      data: OverviewPageResolverService
+    }
   },
   {
     path: 'nieuw',
@@ -31,7 +35,10 @@ const appRoutes: Routes = [
   },
   {
     path: 'post/:postId',
-    component: SinglePostComponent
+    component: SinglePostComponent,
+    resolve: {
+      data: SinglePostPageResolverService
+    }
   }
 ];
 

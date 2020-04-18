@@ -6,7 +6,7 @@ import {Post} from '../../services/firestoreService/post';
 import {ActivatedRoute} from '@angular/router';
 import * as ViewerEditor from '../../customEditor/build/ckeditor';
 import {AuthService} from '../../services/auth.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {FirestoreService} from '../../services/firestoreService/firestore.service';
 import {AudioFile} from '../../services/storageService/audioFile';
 
@@ -18,7 +18,7 @@ import {AudioFile} from '../../services/storageService/audioFile';
 export class SinglePostComponent implements OnInit {
 
   postId: string;
-  post: Observable<Post>;
+  post: Post;
   content: string;
 
   public viewer = ViewerEditor;
@@ -33,39 +33,46 @@ export class SinglePostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.postId = params.postId;
-      this.post = this.firestore.getPost(this.postId);
-    });
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.postId = params.postId;
+    //   this.post = this.firestore.getPost(this.postId);
+    // });
 
-    this.post.subscribe(post => {
-      this.content = post.content;
+    // this.post.subscribe(post => {
+    //   this.content = post.content;
+    // });
+
+
+    this.activatedRoute.data.subscribe(data => {
+      this.post = data.data.post;
+      this.postId = data.data.postId;
+      this.content = data.data.post.content;
     });
   }
 
   play() {
     this.audio.stop();
 
-    let title: string;
-    let episode: string;
-    let podcastName: string;
+    // let title: string;
+    // let episode: string;
+    // let podcastName: string;
 
-    this.post.subscribe(post => {
-      title = post.title;
-      episode = post.episode;
-      podcastName = post.podcastName;
+    // this.post.subscribe(post => {
+    //   title = post.title;
+    //   episode = post.episode;
+    //   podcastName = post.podcastName;
 
-      this.storage.playAudio({
-          title,
-          episode,
-          location: `posts/${this.postId}/podcast/${podcastName}`
-        }
-      ).subscribe((file: AudioFile) => {
-        this.audio.playStream(file.location).then(stream => stream.subscribe(events => {
-            // listening
-          })
-        );
-      });
+    this.storage.playAudio({
+        title: this.post.title,
+        episode: this.post.episode,
+        location: `posts/${this.postId}/podcast/${this.post.podcastName}`
+      }
+    ).subscribe((file: AudioFile) => {
+      this.audio.playStream(file.location).then(stream => stream.subscribe(events => {
+          // listening
+        })
+      );
+      // });
     });
   }
 }

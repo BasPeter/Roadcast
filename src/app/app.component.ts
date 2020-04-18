@@ -8,6 +8,7 @@ import {StorageService} from './services/storageService/storage.service';
 })
 export class AppComponent {
   title = 'RoadCast';
+  isBackgroundLoaded = false;
 
   url: {
     w600,
@@ -20,8 +21,9 @@ export class AppComponent {
   constructor(private storage: StorageService) {
     this.storage.getBackgroundImages().then(data => {
       this.url = data;
+      const image = document.querySelector('img');
+      image.onload = () => this.isBackgroundLoaded = true;
     });
   }
-
 
 }
